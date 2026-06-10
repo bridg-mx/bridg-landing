@@ -4,8 +4,6 @@ import { getDictionary } from "@/dictionaries";
 import { isLocale } from "@/lib/i18n";
 import WaitlistForm from "@/components/WaitlistForm";
 
-const featureIcons = ["🛡️", "🎫", "📁", "🔄", "📉", "📊"];
-
 export default async function LandingPage({
   params,
 }: {
@@ -14,46 +12,49 @@ export default async function LandingPage({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   const dict = getDictionary(lang);
-  const otherLang = lang === "es" ? "en" : "es";
+  const es = lang === "es";
+  const otherLang = es ? "en" : "es";
+
+  const tickerItems = es
+    ? ["Seguros de vida", "Funerarios", "Gastos médicos", "Portal del asegurado", "Tickets con trazabilidad", "Renovaciones"]
+    : ["Life insurance", "Funeral", "Medical expense", "Policyholder portal", "Trackable tickets", "Renewals"];
 
   return (
-    <div className="relative overflow-x-clip">
-      {/* Background glows */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[640px] bg-[radial-gradient(60%_50%_at_50%_0%,oklch(0.45_0.2_277/0.35),transparent)]"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-20 bg-[linear-gradient(to_right,rgb(255_255_255/0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgb(255_255_255/0.03)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:linear-gradient(to_bottom,black,transparent_70%)]"
-      />
-
-      {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-white/5 bg-slate-950/70 backdrop-blur-xl">
+    <div className="overflow-x-clip">
+      {/* Header */}
+      <header className="sticky top-0 z-50 border-b border-rule bg-paper/90 backdrop-blur-sm">
         <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <Link href={`/${lang}`} className="text-lg font-bold tracking-tight">
-            <span className="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">
+          <Link href={`/${lang}`} className="flex items-baseline gap-3">
+            <span className="font-display text-2xl font-bold tracking-tight">
               Bridg
             </span>
+            <span className="hidden font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint sm:inline">
+              {es ? "Plataforma de seguros" : "Insurance platform"}
+            </span>
           </Link>
-          <div className="hidden items-center gap-8 text-sm text-slate-300 sm:flex">
-            <a href="#producto" className="transition hover:text-white">
+          <div className="hidden items-center gap-8 font-mono text-xs uppercase tracking-widest text-ink-soft md:flex">
+            <a href="#producto" className="transition hover:text-vermillion">
               {dict.nav.product}
             </a>
-            <a href="#como-funciona" className="transition hover:text-white">
+            <a href="#como-funciona" className="transition hover:text-vermillion">
               {dict.nav.how}
             </a>
           </div>
-          <div className="flex items-center gap-3">
-            <Link
-              href={`/${otherLang}`}
-              className="rounded-lg border border-white/10 px-2.5 py-1.5 text-xs font-medium uppercase text-slate-300 transition hover:border-white/25 hover:text-white"
-            >
-              {otherLang}
-            </Link>
+          <div className="flex items-center gap-4">
+            <div className="flex font-mono text-xs uppercase">
+              <span className="border border-ink bg-ink px-2 py-1 text-paper">
+                {lang}
+              </span>
+              <Link
+                href={`/${otherLang}`}
+                className="border border-l-0 border-ink px-2 py-1 text-ink transition hover:bg-ink hover:text-paper"
+              >
+                {otherLang}
+              </Link>
+            </div>
             <a
               href="#waitlist"
-              className="rounded-lg bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-400"
+              className="hidden bg-ink px-4 py-2 font-mono text-xs uppercase tracking-widest text-paper transition hover:bg-vermillion sm:block"
             >
               {dict.nav.cta}
             </a>
@@ -63,98 +64,104 @@ export default async function LandingPage({
 
       <main>
         {/* Hero */}
-        <section className="mx-auto max-w-6xl px-6 pb-24 pt-20 text-center sm:pt-28">
-          <span className="inline-flex items-center gap-2 rounded-full border border-indigo-400/30 bg-indigo-500/10 px-4 py-1.5 text-xs font-medium text-indigo-300">
-            <span className="relative flex size-2">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-indigo-400 opacity-75" />
-              <span className="relative inline-flex size-2 rounded-full bg-indigo-400" />
-            </span>
-            {dict.hero.badge}
-          </span>
-          <h1 className="mx-auto mt-6 max-w-3xl text-balance text-4xl font-bold leading-tight tracking-tight sm:text-6xl">
-            {dict.hero.title}
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-slate-400">
-            {dict.hero.subtitle}
-          </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <a
-              href="#waitlist"
-              className="rounded-xl bg-indigo-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-400"
-            >
-              {dict.hero.ctaPrimary}
-            </a>
-            <a
-              href="#como-funciona"
-              className="rounded-xl border border-white/15 px-7 py-3.5 text-sm font-semibold text-slate-200 transition hover:border-white/30 hover:bg-white/5"
-            >
-              {dict.hero.ctaSecondary}
-            </a>
+        <section className="mx-auto grid max-w-6xl gap-14 px-6 pb-20 pt-16 lg:grid-cols-12 lg:gap-8 lg:pt-24">
+          <div className="lg:col-span-7">
+            <p className="rise flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-vermillion">
+              <span className="inline-block size-2 bg-vermillion" />
+              {dict.hero.badge}
+            </p>
+            <h1 className="rise mt-7 font-display text-5xl font-semibold leading-[1.04] tracking-tight sm:text-7xl [animation-delay:0.1s]">
+              {dict.hero.titleA}{" "}
+              <em className="font-light italic text-vermillion">
+                {dict.hero.titleB}
+              </em>
+            </h1>
+            <p className="rise mt-7 max-w-xl text-lg leading-relaxed text-ink-soft [animation-delay:0.2s]">
+              {dict.hero.subtitle}
+            </p>
+            <div className="rise mt-10 flex flex-wrap items-center gap-6 [animation-delay:0.3s]">
+              <a
+                href="#waitlist"
+                className="bg-vermillion px-7 py-3.5 font-mono text-sm uppercase tracking-widest text-paper shadow-[4px_4px_0_0_var(--color-ink)] transition hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_var(--color-ink)]"
+              >
+                {dict.hero.ctaPrimary}
+              </a>
+              <a
+                href="#como-funciona"
+                className="font-mono text-sm uppercase tracking-widest text-ink underline decoration-vermillion decoration-2 underline-offset-8 transition hover:text-vermillion"
+              >
+                {dict.hero.ctaSecondary} ↓
+              </a>
+            </div>
           </div>
 
-          {/* Product mock */}
-          <div className="relative mx-auto mt-20 max-w-4xl">
-            <div
-              aria-hidden
-              className="absolute -inset-x-8 -top-8 bottom-0 -z-10 rounded-[2rem] bg-gradient-to-b from-indigo-500/20 to-transparent blur-2xl"
-            />
-            <div className="overflow-hidden rounded-2xl border border-white/10 bg-slate-900/80 shadow-2xl backdrop-blur">
-              <div className="flex items-center gap-2 border-b border-white/5 px-5 py-3.5">
-                <span className="size-3 rounded-full bg-rose-400/70" />
-                <span className="size-3 rounded-full bg-amber-400/70" />
-                <span className="size-3 rounded-full bg-emerald-400/70" />
-                <span className="ml-3 rounded-md bg-white/5 px-3 py-1 text-xs text-slate-500">
-                  app.bridg.mx
-                </span>
-              </div>
-              <div className="grid grid-cols-[160px_1fr] text-left max-sm:grid-cols-1">
-                <div className="space-y-1 border-r border-white/5 p-4 text-xs text-slate-500 max-sm:hidden">
-                  <div className="rounded-lg bg-indigo-500/15 px-3 py-2 font-medium text-indigo-300">
-                    {lang === "es" ? "Pólizas" : "Policies"}
+          {/* Policy document mock */}
+          <div className="relative lg:col-span-5">
+            {/* Portal ticket behind */}
+            <div className="rise absolute -right-2 top-10 hidden w-64 rotate-3 bg-ink p-5 text-paper shadow-xl sm:block [animation-delay:0.5s]">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper/60">
+                {es ? "Portal del asegurado" : "Policyholder portal"}
+              </p>
+              <p className="mt-3 font-mono text-xs">
+                TKT-0492 · {es ? "Solicitud de endoso" : "Endorsement request"}
+              </p>
+              <p className="mt-2 inline-block bg-ledger px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest">
+                {es ? "En proceso" : "In progress"}
+              </p>
+            </div>
+
+            {/* Policy card */}
+            <div className="rise relative mx-auto max-w-sm -rotate-1 border-2 border-ink bg-[#fffdf7] p-1 shadow-[8px_8px_0_0_rgb(28_36_51/0.12)] [animation-delay:0.4s]">
+              <div className="border border-rule p-6">
+                <div className="flex items-start justify-between border-b border-rule pb-4">
+                  <div>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-faint">
+                      {es ? "Póliza No." : "Policy No."}
+                    </p>
+                    <p className="mt-1 font-mono text-lg font-semibold">
+                      VID-2041
+                    </p>
                   </div>
-                  <div className="px-3 py-2">{lang === "es" ? "Clientes" : "Clients"}</div>
-                  <div className="px-3 py-2">Tickets</div>
-                  <div className="px-3 py-2">{lang === "es" ? "Documentos" : "Documents"}</div>
-                  <div className="px-3 py-2">{lang === "es" ? "Reportes" : "Reports"}</div>
+                  <p className="font-display text-xl font-bold">Bridg</p>
                 </div>
-                <div className="space-y-4 p-5">
-                  <div className="grid grid-cols-3 gap-3">
-                    {[
-                      [lang === "es" ? "Pólizas activas" : "Active policies", "1,248"],
-                      [lang === "es" ? "Por renovar" : "Up for renewal", "37"],
-                      [lang === "es" ? "Tickets abiertos" : "Open tickets", "12"],
-                    ].map(([label, value]) => (
-                      <div key={label} className="rounded-xl border border-white/5 bg-white/5 p-4">
-                        <div className="text-[11px] text-slate-500">{label}</div>
-                        <div className="mt-1 text-xl font-semibold text-slate-100">{value}</div>
-                      </div>
-                    ))}
+
+                <dl className="mt-4 space-y-3 font-mono text-xs">
+                  <div className="flex justify-between gap-4">
+                    <dt className="uppercase tracking-wider text-ink-faint">
+                      {es ? "Asegurada" : "Insured"}
+                    </dt>
+                    <dd>María González R.</dd>
                   </div>
-                  <div className="space-y-2">
-                    {[
-                      ["VID-2041", "María González", lang === "es" ? "Vida" : "Life", "emerald"],
-                      ["GMM-0834", "Carlos Pérez", lang === "es" ? "Gastos médicos" : "Medical", "indigo"],
-                      ["FUN-1190", "Ana Ramírez", lang === "es" ? "Funerario" : "Funeral", "amber"],
-                    ].map(([id, holder, type, color]) => (
-                      <div
-                        key={id}
-                        className="flex items-center justify-between rounded-xl border border-white/5 bg-white/[0.03] px-4 py-3 text-xs"
-                      >
-                        <span className="font-mono text-slate-500">{id}</span>
-                        <span className="text-slate-300">{holder}</span>
-                        <span
-                          className={
-                            color === "emerald"
-                              ? "rounded-full bg-emerald-500/15 px-2.5 py-1 text-emerald-300"
-                              : color === "indigo"
-                                ? "rounded-full bg-indigo-500/15 px-2.5 py-1 text-indigo-300"
-                                : "rounded-full bg-amber-500/15 px-2.5 py-1 text-amber-300"
-                          }
-                        >
-                          {type}
-                        </span>
-                      </div>
-                    ))}
+                  <div className="flex justify-between gap-4">
+                    <dt className="uppercase tracking-wider text-ink-faint">
+                      {es ? "Ramo" : "Line"}
+                    </dt>
+                    <dd>{es ? "Vida individual" : "Individual life"}</dd>
+                  </div>
+                  <div className="flex justify-between gap-4">
+                    <dt className="uppercase tracking-wider text-ink-faint">
+                      {es ? "Suma asegurada" : "Coverage"}
+                    </dt>
+                    <dd>$2,500,000 MXN</dd>
+                  </div>
+                  <div className="flex justify-between gap-4">
+                    <dt className="uppercase tracking-wider text-ink-faint">
+                      {es ? "Vigencia" : "Term"}
+                    </dt>
+                    <dd>2026 — 2027</dd>
+                  </div>
+                </dl>
+
+                <div className="mt-5 border-t border-dashed border-rule pt-4">
+                  <div className="flex items-end justify-between">
+                    <p className="font-mono text-[10px] uppercase leading-relaxed tracking-[0.2em] text-ink-faint">
+                      {es ? "Documento generado" : "Generated by"}
+                      <br />
+                      app.bridg.mx
+                    </p>
+                    <span className="stamp-in inline-block border-[3px] border-vermillion px-3 py-1.5 font-mono text-sm font-semibold uppercase tracking-[0.2em] text-vermillion">
+                      {es ? "Vigente" : "Active"}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -162,63 +169,115 @@ export default async function LandingPage({
           </div>
         </section>
 
-        {/* Two products */}
-        <section id="producto" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-          <div className="text-center">
-            <h2 className="text-balance text-3xl font-bold tracking-tight sm:text-4xl">
-              {dict.products.title}
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-slate-400">{dict.products.subtitle}</p>
-          </div>
-          <div className="mt-14 grid gap-6 lg:grid-cols-2">
-            {[dict.products.admin, dict.products.portal].map((product, i) => (
-              <div
-                key={product.title}
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-8 transition hover:border-indigo-400/30"
-              >
-                <div
-                  aria-hidden
-                  className={`absolute -top-24 size-48 rounded-full blur-3xl transition group-hover:opacity-100 ${
-                    i === 0 ? "-left-12 bg-indigo-500/20" : "-right-12 bg-violet-500/20"
-                  }`}
-                />
-                <span className="text-xs font-semibold uppercase tracking-wider text-indigo-400">
-                  {product.tag}
-                </span>
-                <h3 className="mt-3 text-2xl font-semibold">{product.title}</h3>
-                <p className="mt-3 leading-relaxed text-slate-400">{product.description}</p>
-                <ul className="mt-6 space-y-3">
-                  {product.bullets.map((bullet) => (
-                    <li key={bullet} className="flex items-start gap-3 text-sm text-slate-300">
-                      <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-indigo-500/15 text-xs text-indigo-300">
-                        ✓
-                      </span>
-                      {bullet}
-                    </li>
-                  ))}
-                </ul>
+        {/* Ticker */}
+        <div className="overflow-hidden border-y border-rule bg-paper-deep py-3">
+          <div className="ticker-track flex w-max gap-0 whitespace-nowrap font-mono text-xs uppercase tracking-[0.25em] text-ink-soft">
+            {[0, 1].map((copy) => (
+              <div key={copy} aria-hidden={copy === 1} className="flex">
+                {tickerItems.map((item) => (
+                  <span key={item} className="flex items-center">
+                    <span className="px-6">{item}</span>
+                    <span className="text-vermillion">✺</span>
+                  </span>
+                ))}
               </div>
             ))}
           </div>
+        </div>
+
+        {/* 01 — Two products */}
+        <section id="producto" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
+          <div className="flex flex-wrap items-end justify-between gap-6 border-b-2 border-ink pb-6">
+            <h2 className="font-display text-4xl font-semibold tracking-tight sm:text-5xl">
+              {dict.products.title}
+            </h2>
+            <span className="font-mono text-sm uppercase tracking-[0.25em] text-ink-faint">
+              № 01
+            </span>
+          </div>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
+            {dict.products.subtitle}
+          </p>
+
+          <div className="mt-12 grid gap-8 lg:grid-cols-2">
+            {/* Admin — ink panel */}
+            <div className="border-2 border-ink bg-ink p-8 text-paper sm:p-10">
+              <p className="font-mono text-xs uppercase tracking-[0.25em] text-vermillion">
+                {dict.products.admin.tag}
+              </p>
+              <h3 className="mt-4 font-display text-3xl font-semibold">
+                {dict.products.admin.title}
+              </h3>
+              <p className="mt-4 leading-relaxed text-paper/70">
+                {dict.products.admin.description}
+              </p>
+              <ul className="mt-8 space-y-0 border-t border-paper/20">
+                {dict.products.admin.bullets.map((bullet, i) => (
+                  <li
+                    key={bullet}
+                    className="flex gap-4 border-b border-paper/20 py-3.5 text-sm leading-relaxed"
+                  >
+                    <span className="font-mono text-vermillion">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Portal — paper panel */}
+            <div className="border-2 border-ink bg-[#fffdf7] p-8 sm:p-10">
+              <p className="font-mono text-xs uppercase tracking-[0.25em] text-ledger">
+                {dict.products.portal.tag}
+              </p>
+              <h3 className="mt-4 font-display text-3xl font-semibold">
+                {dict.products.portal.title}
+              </h3>
+              <p className="mt-4 leading-relaxed text-ink-soft">
+                {dict.products.portal.description}
+              </p>
+              <ul className="mt-8 space-y-0 border-t border-rule">
+                {dict.products.portal.bullets.map((bullet, i) => (
+                  <li
+                    key={bullet}
+                    className="flex gap-4 border-b border-rule py-3.5 text-sm leading-relaxed"
+                  >
+                    <span className="font-mono text-ledger">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </section>
 
-        {/* Features */}
-        <section className="border-y border-white/5 bg-white/[0.02]">
+        {/* 02 — Features ledger grid */}
+        <section className="border-y border-rule bg-paper-deep">
           <div className="mx-auto max-w-6xl px-6 py-24">
-            <h2 className="text-center text-balance text-3xl font-bold tracking-tight sm:text-4xl">
-              {dict.features.title}
-            </h2>
-            <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex flex-wrap items-end justify-between gap-6 border-b-2 border-ink pb-6">
+              <h2 className="font-display text-4xl font-semibold tracking-tight sm:text-5xl">
+                {dict.features.title}
+              </h2>
+              <span className="font-mono text-sm uppercase tracking-[0.25em] text-ink-faint">
+                № 02
+              </span>
+            </div>
+            <div className="mt-12 grid border-l border-t border-ink/25 sm:grid-cols-2 lg:grid-cols-3">
               {dict.features.items.map((feature, i) => (
                 <div
                   key={feature.title}
-                  className="rounded-2xl border border-white/5 bg-slate-900/50 p-6 transition hover:border-white/15"
+                  className="group border-b border-r border-ink/25 p-7 transition hover:bg-[#fffdf7]"
                 >
-                  <div className="flex size-10 items-center justify-center rounded-xl bg-indigo-500/10 text-lg">
-                    {featureIcons[i]}
-                  </div>
-                  <h3 className="mt-4 font-semibold">{feature.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                  <p className="font-mono text-xs text-ink-faint transition group-hover:text-vermillion">
+                    {String(i + 1).padStart(2, "0")} /
+                  </p>
+                  <h3 className="mt-3 font-display text-xl font-semibold">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-soft">
                     {feature.description}
                   </p>
                 </div>
@@ -227,39 +286,50 @@ export default async function LandingPage({
           </div>
         </section>
 
-        {/* How it works */}
+        {/* 03 — How it works */}
         <section id="como-funciona" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-24">
-          <h2 className="text-center text-balance text-3xl font-bold tracking-tight sm:text-4xl">
-            {dict.how.title}
-          </h2>
-          <div className="mt-14 grid gap-8 md:grid-cols-3">
+          <div className="flex flex-wrap items-end justify-between gap-6 border-b-2 border-ink pb-6">
+            <h2 className="font-display text-4xl font-semibold tracking-tight sm:text-5xl">
+              {dict.how.title}
+            </h2>
+            <span className="font-mono text-sm uppercase tracking-[0.25em] text-ink-faint">
+              № 03
+            </span>
+          </div>
+          <div className="mt-14 grid gap-12 md:grid-cols-3 md:gap-8">
             {dict.how.steps.map((step, i) => (
-              <div key={step.title} className="relative">
-                <div className="flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 text-lg font-bold text-white shadow-lg shadow-indigo-500/25">
+              <div key={step.title}>
+                <p className="font-display text-7xl font-light italic text-vermillion">
                   {i + 1}
-                </div>
-                <h3 className="mt-5 text-lg font-semibold">{step.title}</h3>
-                <p className="mt-2 leading-relaxed text-slate-400">{step.description}</p>
+                </p>
+                <h3 className="mt-4 border-t-2 border-ink pt-4 font-display text-2xl font-semibold">
+                  {step.title}
+                </h3>
+                <p className="mt-3 leading-relaxed text-ink-soft">
+                  {step.description}
+                </p>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Waitlist */}
-        <section id="waitlist" className="scroll-mt-20 px-6 pb-28 pt-4">
-          <div className="relative mx-auto max-w-xl">
-            <div
-              aria-hidden
-              className="absolute -inset-10 -z-10 rounded-[3rem] bg-[radial-gradient(50%_50%_at_50%_50%,oklch(0.45_0.2_277/0.25),transparent)] blur-xl"
-            />
-            <div className="rounded-3xl border border-white/10 bg-slate-900/70 p-8 shadow-2xl backdrop-blur sm:p-10">
-              <h2 className="text-center text-balance text-3xl font-bold tracking-tight">
+        {/* Waitlist — application form document */}
+        <section id="waitlist" className="scroll-mt-20 px-6 pb-28">
+          <div className="mx-auto max-w-2xl border-2 border-ink bg-[#fffdf7] p-1 shadow-[10px_10px_0_0_rgb(28_36_51/0.12)]">
+            <div className="border border-rule p-8 sm:p-12">
+              <p className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-vermillion">
+                <span className="inline-block size-2 bg-vermillion" />
+                {es
+                  ? "Forma BR-01 · Solicitud de acceso anticipado"
+                  : "Form BR-01 · Early access application"}
+              </p>
+              <h2 className="mt-5 font-display text-4xl font-semibold tracking-tight">
                 {dict.waitlist.title}
               </h2>
-              <p className="mt-3 text-center text-sm leading-relaxed text-slate-400">
+              <p className="mt-4 leading-relaxed text-ink-soft">
                 {dict.waitlist.subtitle}
               </p>
-              <div className="mt-8">
+              <div className="mt-10">
                 <WaitlistForm dict={dict.waitlist} locale={lang} />
               </div>
             </div>
@@ -268,14 +338,15 @@ export default async function LandingPage({
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/5 py-10">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 text-sm text-slate-500 sm:flex-row">
-          <div>
-            <span className="font-semibold text-slate-300">Bridg</span> — {dict.footer.tagline}
-          </div>
-          <div>
-            © {new Date().getFullYear()} Bridg. {dict.footer.rights}
-          </div>
+      <footer className="border-t border-rule">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-8 font-mono text-xs uppercase tracking-wider text-ink-faint sm:flex-row">
+          <p>
+            <span className="font-semibold text-ink">Bridg</span> ·{" "}
+            {dict.footer.tagline}
+          </p>
+          <p>
+            © {new Date().getFullYear()} Bridg · {dict.footer.rights}
+          </p>
         </div>
       </footer>
     </div>

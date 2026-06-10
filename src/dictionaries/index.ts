@@ -8,7 +8,8 @@ const es = {
   },
   hero: {
     badge: "Próximamente — acceso anticipado",
-    title: "Toda tu operación de seguros, en un solo lugar",
+    titleA: "Toda tu operación de seguros,",
+    titleB: "en un solo lugar.",
     subtitle:
       "Bridg es la plataforma para administrar pólizas, clientes y solicitudes de seguros de vida, funerarios y gastos médicos — con un portal de autoservicio para tus asegurados.",
     ctaPrimary: "Unirme a la lista de espera",
@@ -135,7 +136,8 @@ const en: typeof es = {
   },
   hero: {
     badge: "Coming soon — early access",
-    title: "Your entire insurance operation, in one place",
+    titleA: "Your entire insurance operation,",
+    titleB: "in one place.",
     subtitle:
       "Bridg is the platform to manage policies, clients and requests for life, funeral and medical expense insurance — with a self-service portal for your policyholders.",
     ctaPrimary: "Join the waitlist",

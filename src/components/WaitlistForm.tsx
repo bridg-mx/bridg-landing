@@ -57,24 +57,26 @@ export default function WaitlistForm({
 
   if (status === "success") {
     return (
-      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-8 text-center">
-        <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-emerald-500/20 text-2xl">
-          ✓
-        </div>
-        <p className="text-lg font-medium text-emerald-300">{dict.success}</p>
+      <div className="border-2 border-ledger p-8 text-center">
+        <span className="inline-block -rotate-3 border-[3px] border-ledger px-4 py-2 font-mono text-base font-semibold uppercase tracking-[0.2em] text-ledger">
+          {locale === "es" ? "Registrado" : "Registered"}
+        </span>
+        <p className="mt-5 leading-relaxed text-ink">{dict.success}</p>
       </div>
     );
   }
 
+  const labelClasses =
+    "mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-ink-soft";
   const inputClasses =
-    "w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-indigo-400/60 focus:bg-white/10 focus:ring-2 focus:ring-indigo-500/30";
+    "w-full border-0 border-b-2 border-rule bg-transparent px-0 py-2.5 text-base text-ink placeholder:text-ink-faint outline-none transition focus:border-vermillion";
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-      <div className="grid gap-4 sm:grid-cols-2">
+    <form onSubmit={handleSubmit} className="space-y-7" noValidate>
+      <div className="grid gap-7 sm:grid-cols-2">
         <div>
-          <label htmlFor="wl-name" className="mb-1.5 block text-sm font-medium text-slate-300">
-            {dict.name}
+          <label htmlFor="wl-name" className={labelClasses}>
+            {dict.name} *
           </label>
           <input
             id="wl-name"
@@ -88,8 +90,8 @@ export default function WaitlistForm({
           />
         </div>
         <div>
-          <label htmlFor="wl-email" className="mb-1.5 block text-sm font-medium text-slate-300">
-            {dict.email}
+          <label htmlFor="wl-email" className={labelClasses}>
+            {dict.email} *
           </label>
           <input
             id="wl-email"
@@ -103,7 +105,7 @@ export default function WaitlistForm({
       </div>
 
       <div>
-        <label htmlFor="wl-company" className="mb-1.5 block text-sm font-medium text-slate-300">
+        <label htmlFor="wl-company" className={labelClasses}>
           {dict.company}
         </label>
         <input
@@ -117,7 +119,7 @@ export default function WaitlistForm({
       </div>
 
       <div>
-        <label htmlFor="wl-role" className="mb-1.5 block text-sm font-medium text-slate-300">
+        <label htmlFor="wl-role" className={labelClasses}>
           {dict.role}
         </label>
         <select id="wl-role" name="role" defaultValue="agent" className={inputClasses}>
@@ -139,7 +141,7 @@ export default function WaitlistForm({
       />
 
       {status === "error" && message && (
-        <p className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-4 py-2.5 text-sm text-rose-300">
+        <p className="border-l-4 border-vermillion bg-vermillion/10 px-4 py-3 text-sm text-vermillion-deep">
           {message}
         </p>
       )}
@@ -147,12 +149,14 @@ export default function WaitlistForm({
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="w-full rounded-xl bg-indigo-500 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition hover:bg-indigo-400 disabled:cursor-not-allowed disabled:opacity-60"
+        className="w-full bg-vermillion px-6 py-4 font-mono text-sm uppercase tracking-[0.2em] text-paper shadow-[4px_4px_0_0_var(--color-ink)] transition hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === "submitting" ? dict.submitting : dict.submit}
       </button>
 
-      <p className="text-center text-xs text-slate-500">{dict.privacy}</p>
+      <p className="text-center font-mono text-[11px] uppercase tracking-wider text-ink-faint">
+        {dict.privacy}
+      </p>
     </form>
   );
 }

@@ -1,17 +1,24 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Archivo, IBM_Plex_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
-import { isLocale, locales, type Locale } from "@/lib/i18n";
+import { isLocale, locales } from "@/lib/i18n";
 import "../globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  axes: ["opsz", "SOFT", "WONK"],
+});
+
+const archivo = Archivo({
+  variable: "--font-archivo",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
 
 export function generateStaticParams() {
@@ -50,12 +57,10 @@ export default async function RootLayout({
 
   return (
     <html
-      lang={lang satisfies Locale}
-      className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
+      lang={lang}
+      className={`${fraunces.variable} ${archivo.variable} ${plexMono.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="min-h-full bg-slate-950 font-sans text-slate-100">
-        {children}
-      </body>
+      <body className="min-h-full bg-paper font-sans text-ink">{children}</body>
     </html>
   );
 }

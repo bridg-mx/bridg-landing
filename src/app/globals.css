@@ -1,10 +1,82 @@
 @import "tailwindcss";
 
-@theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+  /* Ledger palette: warm paper, archival ink, stamp vermillion, ledger green */
+  --color-paper: #f7f3ea;
+  --color-paper-deep: #efe9db;
+  --color-ink: #1c2433;
+  --color-ink-soft: #4c5468;
+  --color-ink-faint: #8b91a1;
+  --color-rule: rgb(28 36 51 / 0.16);
+  --color-vermillion: #c2402a;
+  --color-vermillion-deep: #a33420;
+  --color-ledger: #2e6e4e;
+
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-archivo);
+  --font-mono: var(--font-plex-mono);
 }
 
 ::selection {
-  background: oklch(0.585 0.233 277.117 / 0.4);
+  background: #c2402a;
+  color: #f7f3ea;
+}
+
+body {
+  /* Faint paper grain */
+  background-image: radial-gradient(rgb(28 36 51 / 0.045) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes stamp {
+  0% {
+    opacity: 0;
+    transform: rotate(8deg) scale(1.6);
+  }
+  60% {
+    opacity: 1;
+    transform: rotate(-6deg) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(-6deg) scale(1);
+  }
+}
+
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .stamp-in {
+    animation: stamp 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.9s both;
+  }
+  .ticker-track {
+    animation: ticker 28s linear infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp-in {
+    transform: rotate(-6deg);
+  }
 }
