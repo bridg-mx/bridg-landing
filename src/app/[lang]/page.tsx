@@ -16,8 +16,8 @@ export default async function LandingPage({
   const otherLang = es ? "en" : "es";
 
   const tickerItems = es
-    ? ["Seguros de vida", "Funerarios", "Gastos médicos", "Portal del asegurado", "Tickets con trazabilidad", "Renovaciones"]
-    : ["Life insurance", "Funeral", "Medical expense", "Policyholder portal", "Trackable tickets", "Renewals"];
+    ? ["Seguros de vida", "Funerarios", "Gastos médicos", "Contratos de plan", "Layouts Metlife · Bupa · Mapfre", "Carga vía Excel", "SLAs y acuses", "Portal del cliente"]
+    : ["Life insurance", "Funeral", "Medical expense", "Plan contracts", "Metlife · Bupa · Mapfre layouts", "Excel import", "SLAs & acknowledgments", "Client portal"];
 
   return (
     <div className="overflow-x-clip">
@@ -100,10 +100,10 @@ export default async function LandingPage({
             {/* Portal ticket behind */}
             <div className="rise absolute -right-2 top-10 hidden w-64 rotate-3 bg-ink p-5 text-paper shadow-xl sm:block [animation-delay:0.5s]">
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper/60">
-                {es ? "Portal del asegurado" : "Policyholder portal"}
+                {es ? "Portal del cliente" : "Client portal"}
               </p>
               <p className="mt-3 font-mono text-xs">
-                TKT-0492 · {es ? "Solicitud de endoso" : "Endorsement request"}
+                TKT-0492 · {es ? "Alta de 3 personas" : "Add 3 members"}
               </p>
               <p className="mt-2 inline-block bg-ledger px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest">
                 {es ? "En proceso" : "In progress"}
@@ -119,7 +119,7 @@ export default async function LandingPage({
                       {es ? "Póliza No." : "Policy No."}
                     </p>
                     <p className="mt-1 font-mono text-lg font-semibold">
-                      VID-2041
+                      GMM-2041
                     </p>
                   </div>
                   <p className="font-display text-xl font-bold">Bridg</p>
@@ -128,21 +128,27 @@ export default async function LandingPage({
                 <dl className="mt-4 space-y-3 font-mono text-xs">
                   <div className="flex justify-between gap-4">
                     <dt className="uppercase tracking-wider text-ink-faint">
-                      {es ? "Asegurada" : "Insured"}
+                      {es ? "Cliente" : "Client"}
                     </dt>
-                    <dd>María González R.</dd>
+                    <dd>Grupo Atlas S.A.</dd>
                   </div>
                   <div className="flex justify-between gap-4">
                     <dt className="uppercase tracking-wider text-ink-faint">
                       {es ? "Ramo" : "Line"}
                     </dt>
-                    <dd>{es ? "Vida individual" : "Individual life"}</dd>
+                    <dd>{es ? "GMM grupal" : "Group medical"}</dd>
                   </div>
                   <div className="flex justify-between gap-4">
                     <dt className="uppercase tracking-wider text-ink-faint">
-                      {es ? "Suma asegurada" : "Coverage"}
+                      {es ? "Personas aseguradas" : "Insured members"}
                     </dt>
-                    <dd>$2,500,000 MXN</dd>
+                    <dd>48</dd>
+                  </div>
+                  <div className="flex justify-between gap-4">
+                    <dt className="uppercase tracking-wider text-ink-faint">
+                      {es ? "Aseguradora" : "Carrier"}
+                    </dt>
+                    <dd>Metlife</dd>
                   </div>
                   <div className="flex justify-between gap-4">
                     <dt className="uppercase tracking-wider text-ink-faint">
