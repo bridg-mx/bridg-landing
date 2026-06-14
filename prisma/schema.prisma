@@ -1,0 +1,26 @@
+// Prisma schema for the Bridg waitlist.
+// Datasource connection lives in prisma.config.ts (Prisma 7).
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// Waitlist signups captured by the landing page.
+/// Maps to public.waitlist_signups (snake_case columns).
+model WaitlistSignup {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  name      String
+  email     String   @unique
+  company   String?
+  role      String   @default("other")
+  locale    String?
+
+  @@map("waitlist_signups")
+}

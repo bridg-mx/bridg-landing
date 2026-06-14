@@ -42,3 +42,5 @@ next-env.d.ts
 
 # local waitlist fallback db
 .data/
+
+/src/generated/prisma

@@ -6,22 +6,11 @@ Landing page bilingüe (ES/EN) para validar tracción de Bridg: plataforma de ad
 
 - Next.js 16 (App Router, Turbopack) + React 19 + TypeScript
 - Tailwind CSS v4
-- Supabase (Postgres) para registros del waitlist
-- Fallback local: sin credenciales de Supabase, los registros van a SQLite (`.data/waitlist.db`)
-
-## Desarrollo local sin Supabase
-
-`npm run dev` y listo. Si `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` no están definidas, el form guarda en `.data/waitlist.db` (SQLite vía `node:sqlite`, requiere Node 22+; gitignored). Consultar registros:
-
-```bash
-sqlite3 .data/waitlist.db "select * from waitlist_signups;"
-```
-
-⚠️ Solo para desarrollo: en serverless (Vercel) el filesystem es efímero — en producción configura Supabase.
+- Prisma 7 + Supabase (Postgres) para registros del waitlist
 
 ## Setup
 
-1. Instalar dependencias:
+1. Instalar dependencias (corre `prisma generate` vía `postinstall`):
 
    ```bash
    npm install
@@ -29,16 +18,25 @@ sqlite3 .data/waitlist.db "select * from waitlist_signups;"
 
 2. Crear proyecto en [supabase.com](https://supabase.com) (plan gratuito alcanza).
 
-3. Crear la tabla: copiar el contenido de `supabase/schema.sql` y correrlo en **Dashboard → SQL Editor**.
-
-4. Configurar credenciales: copiar `.env.example` a `.env.local` y llenar con los valores de **Dashboard → Project Settings → API**:
+3. Configurar conexión: copiar `.env.example` a `.env` y llenar con los strings de
+   **Dashboard → Connect → ORMs → Prisma**:
 
    ```
-   SUPABASE_URL=https://TU-PROYECTO.supabase.co
-   SUPABASE_SERVICE_ROLE_KEY=...
+   # Transaction pooler (puerto 6543) — runtime
+   DATABASE_URL="postgresql://postgres.TU-REF:PASSWORD@aws-1-REGION.pooler.supabase.com:6543/postgres?pgbouncer=true"
+   # Session pooler (puerto 5432) — migraciones
+   DIRECT_URL="postgresql://postgres.TU-REF:PASSWORD@aws-1-REGION.pooler.supabase.com:5432/postgres"
    ```
 
-   ⚠️ La service role key es server-only. Nunca prefijarla con `NEXT_PUBLIC_` ni exponerla en el cliente.
+   ⚠️ Usar el **pooler** (`...pooler.supabase.com`), no el host directo `db.*.supabase.co`:
+   ese host es IPv6-only y no es alcanzable desde redes IPv4. La password va server-only;
+   nunca prefijar con `NEXT_PUBLIC_`.
+
+4. Crear la tabla (aplica las migraciones commiteadas):
+
+   ```bash
+   npm run db:deploy
+   ```
 
 5. Correr:
 
@@ -48,6 +46,16 @@ sqlite3 .data/waitlist.db "select * from waitlist_signups;"
 
    `/` redirige a `/es` o `/en` según el idioma del navegador.
 
+## Base de datos (Prisma)
+
+- Schema: `prisma/schema.prisma` (modelo `WaitlistSignup` → tabla `waitlist_signups`).
+- Migraciones: `prisma/migrations/` (source of truth).
+- Scripts:
+  - `npm run db:migrate` — crear/aplicar migración en desarrollo
+  - `npm run db:deploy` — aplicar migraciones commiteadas (prod / primer setup)
+  - `npm run db:generate` — regenerar el client
+  - `npm run db:studio` — abrir Prisma Studio
+
 ## Ver registros del waitlist
 
 **Dashboard de Supabase → Table Editor → `waitlist_signups`**. Columnas: `name`, `email`, `company`, `role` (agent/agency/insurer/other), `locale`, `created_at`. Exportable a CSV desde el mismo dashboard.
@@ -55,13 +63,15 @@ sqlite3 .data/waitlist.db "select * from waitlist_signups;"
 ## Deploy (Vercel)
 
 1. Conectar el repo en Vercel.
-2. Agregar `SUPABASE_URL` y `SUPABASE_SERVICE_ROLE_KEY` en **Settings → Environment Variables**.
-3. Deploy. No requiere configuración adicional.
+2. Agregar `DATABASE_URL` y `DIRECT_URL` en **Settings → Environment Variables**.
+3. Deploy. El build corre `prisma generate` vía `postinstall`.
 
 ## Estructura
 
 - `src/app/[lang]/` — layout y landing (rutas `/es`, `/en`)
 - `src/dictionaries/` — textos en ambos idiomas
-- `src/app/api/waitlist/route.ts` — POST del form → Supabase (valida, honeypot anti-bots, dedup por email)
+- `src/app/api/waitlist/route.ts` — POST del form → Prisma (valida, honeypot anti-bots, dedup por email)
+- `src/lib/waitlist-store.ts` — inserción vía Prisma (mapea `P2002` → duplicate)
+- `src/lib/prisma.ts` — Prisma Client singleton (adapter `@prisma/adapter-pg`)
 - `src/proxy.ts` — redirect de locale por `Accept-Language`
-- `supabase/schema.sql` — schema de la tabla
+- `prisma/schema.prisma` — schema de la tabla
