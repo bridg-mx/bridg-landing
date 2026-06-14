@@ -326,8 +326,8 @@ export default async function LandingPage({
               <p className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-vermillion">
                 <span className="inline-block size-2 bg-vermillion" />
                 {es
-                  ? "Forma BR-01 · Solicitud de acceso anticipado"
-                  : "Form BR-01 · Early access application"}
+                  ? "Forma BR-01 · Solicitud de acceso"
+                  : "Form BR-01 · Access request"}
               </p>
               <h2 className="mt-5 font-display text-4xl font-semibold tracking-tight">
                 {dict.waitlist.title}

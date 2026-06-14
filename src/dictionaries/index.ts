@@ -4,15 +4,15 @@ const es = {
   nav: {
     product: "Producto",
     how: "Cómo funciona",
-    cta: "Unirme a la lista",
+    cta: "Solicitar acceso",
   },
   hero: {
-    badge: "Próximamente — acceso anticipado",
+    badge: "Acceso por invitación",
     titleA: "Toda tu operación de seguros,",
     titleB: "en un solo lugar.",
     subtitle:
       "Bridg es la plataforma para administrar clientes, personas aseguradas y pólizas de vida, funerarios y gastos médicos — con un portal donde tus clientes consultan, descargan y solicitan sin depender de tu equipo.",
-    ctaPrimary: "Unirme a la lista de espera",
+    ctaPrimary: "Solicitar acceso",
     ctaSecondary: "Ver cómo funciona",
   },
   products: {
@@ -100,9 +100,9 @@ const es = {
     ],
   },
   waitlist: {
-    title: "Sé de los primeros en probarlo",
+    title: "Solicita acceso a Bridg",
     subtitle:
-      "Estamos abriendo acceso anticipado para agentes, agencias y aseguradoras. Déjanos tus datos y te contactamos.",
+      "Bridg ya opera con agentes, agencias y aseguradoras. Vamos abriendo acceso por invitación — déjanos tus datos y te contactamos.",
     name: "Nombre",
     namePlaceholder: "Tu nombre",
     email: "Correo electrónico",
@@ -116,10 +116,10 @@ const es = {
       insurer: "Aseguradora",
       other: "Otro",
     },
-    submit: "Unirme a la lista de espera",
+    submit: "Solicitar acceso",
     submitting: "Enviando…",
-    success: "¡Listo! Estás en la lista. Te contactaremos pronto.",
-    duplicate: "Ese correo ya está registrado en la lista.",
+    success: "¡Listo! Recibimos tu solicitud. Te contactaremos para darte acceso.",
+    duplicate: "Ese correo ya tiene una solicitud registrada.",
     invalid: "Revisa tu nombre y correo e intenta de nuevo.",
     error: "Algo salió mal. Intenta de nuevo en un momento.",
     privacy: "Solo usaremos tus datos para contactarte sobre Bridg.",
@@ -134,15 +134,15 @@ const en: typeof es = {
   nav: {
     product: "Product",
     how: "How it works",
-    cta: "Join the waitlist",
+    cta: "Request access",
   },
   hero: {
-    badge: "Coming soon — early access",
+    badge: "Access by invitation",
     titleA: "Your entire insurance operation,",
     titleB: "in one place.",
     subtitle:
       "Bridg is the platform to manage clients, insured members and policies for life, funeral and medical expense insurance — with a portal where your clients view, download and request without depending on your team.",
-    ctaPrimary: "Join the waitlist",
+    ctaPrimary: "Request access",
     ctaSecondary: "See how it works",
   },
   products: {
@@ -230,9 +230,9 @@ const en: typeof es = {
     ],
   },
   waitlist: {
-    title: "Be among the first to try it",
+    title: "Request access to Bridg",
     subtitle:
-      "We're opening early access for agents, agencies and insurers. Leave your details and we'll reach out.",
+      "Bridg is already live with agents, agencies and insurers. We're opening access by invitation — leave your details and we'll reach out.",
     name: "Name",
     namePlaceholder: "Your name",
     email: "Email",
@@ -246,10 +246,10 @@ const en: typeof es = {
       insurer: "Insurance carrier",
       other: "Other",
     },
-    submit: "Join the waitlist",
+    submit: "Request access",
     submitting: "Submitting…",
-    success: "Done! You're on the list. We'll be in touch soon.",
-    duplicate: "That email is already on the list.",
+    success: "Done! We got your request. We'll be in touch to set up your access.",
+    duplicate: "That email already has a request on file.",
     invalid: "Check your name and email and try again.",
     error: "Something went wrong. Please try again in a moment.",
     privacy: "We'll only use your details to contact you about Bridg.",
