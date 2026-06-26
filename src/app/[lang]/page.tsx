@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getDictionary } from "@/dictionaries";
 import { isLocale } from "@/lib/i18n";
 import WaitlistForm from "@/components/WaitlistForm";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default async function LandingPage({
   params,
@@ -41,6 +42,7 @@ export default async function LandingPage({
             </a>
           </div>
           <div className="flex items-center gap-4">
+            <ThemeToggle label={dict.nav.theme} />
             <div className="flex font-mono text-xs uppercase">
               <span className="border border-ink bg-ink px-2 py-1 text-paper">
                 {lang}
@@ -111,7 +113,7 @@ export default async function LandingPage({
             </div>
 
             {/* Policy card */}
-            <div className="rise relative mx-auto max-w-sm -rotate-1 border-2 border-ink bg-[#fffdf7] p-1 shadow-[8px_8px_0_0_rgb(28_36_51/0.12)] [animation-delay:0.4s]">
+            <div className="rise relative mx-auto max-w-sm -rotate-1 border-2 border-ink bg-surface p-1 shadow-[8px_8px_0_0_var(--color-shadow)] [animation-delay:0.4s]">
               <div className="border border-rule p-6">
                 <div className="flex items-start justify-between border-b border-rule pb-4">
                   <div>
@@ -233,7 +235,7 @@ export default async function LandingPage({
             </div>
 
             {/* Portal — paper panel */}
-            <div className="border-2 border-ink bg-[#fffdf7] p-8 sm:p-10">
+            <div className="border-2 border-ink bg-surface p-8 sm:p-10">
               <p className="font-mono text-xs uppercase tracking-[0.25em] text-ledger">
                 {dict.products.portal.tag}
               </p>
@@ -275,7 +277,7 @@ export default async function LandingPage({
               {dict.features.items.map((feature, i) => (
                 <div
                   key={feature.title}
-                  className="group border-b border-r border-ink/25 p-7 transition hover:bg-[#fffdf7]"
+                  className="group border-b border-r border-ink/25 p-7 transition hover:bg-surface"
                 >
                   <p className="font-mono text-xs text-ink-faint transition group-hover:text-vermillion">
                     {String(i + 1).padStart(2, "0")} /
@@ -321,7 +323,7 @@ export default async function LandingPage({
 
         {/* Waitlist — application form document */}
         <section id="waitlist" className="scroll-mt-20 px-6 pb-28">
-          <div className="mx-auto max-w-2xl border-2 border-ink bg-[#fffdf7] p-1 shadow-[10px_10px_0_0_rgb(28_36_51/0.12)]">
+          <div className="mx-auto max-w-2xl border-2 border-ink bg-surface p-1 shadow-[10px_10px_0_0_var(--color-shadow)]">
             <div className="border border-rule p-8 sm:p-12">
               <p className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-vermillion">
                 <span className="inline-block size-2 bg-vermillion" />

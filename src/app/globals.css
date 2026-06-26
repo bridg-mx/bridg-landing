@@ -4,6 +4,7 @@
   /* Ledger palette: warm paper, archival ink, stamp vermillion, ledger green */
   --color-paper: #f7f3ea;
   --color-paper-deep: #efe9db;
+  --color-surface: #fffdf7; /* raised card stock */
   --color-ink: #1c2433;
   --color-ink-soft: #4c5468;
   --color-ink-faint: #8b91a1;
@@ -12,20 +13,42 @@
   --color-vermillion-deep: #a33420;
   --color-ledger: #2e6e4e;
 
+  /* Hard offset shadow + paper grain — tokenized so they flip in dark */
+  --color-shadow: rgb(28 36 51 / 0.12);
+  --grain: rgb(28 36 51 / 0.045);
+
   --font-display: var(--font-fraunces);
   --font-sans: var(--font-archivo);
   --font-mono: var(--font-plex-mono);
 }
 
+/* Dark ledger: same palette inverted — ink becomes light, paper becomes night */
+html.dark {
+  --color-paper: #14181f;
+  --color-paper-deep: #1a1f28;
+  --color-surface: #1d232e;
+  --color-ink: #f3efe6;
+  --color-ink-soft: #b6bbc6;
+  --color-ink-faint: #7c8290;
+  --color-rule: rgb(243 239 230 / 0.16);
+  --color-vermillion: #e06046;
+  --color-vermillion-deep: #c2402a;
+  --color-ledger: #4f9e74;
+
+  --color-shadow: rgb(0 0 0 / 0.55);
+  --grain: rgb(243 239 230 / 0.04);
+}
+
 ::selection {
-  background: #c2402a;
-  color: #f7f3ea;
+  background: var(--color-vermillion);
+  color: var(--color-paper);
 }
 
 body {
   /* Faint paper grain */
-  background-image: radial-gradient(rgb(28 36 51 / 0.045) 1px, transparent 1px);
+  background-image: radial-gradient(var(--grain) 1px, transparent 1px);
   background-size: 24px 24px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 @keyframes rise {

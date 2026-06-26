@@ -5,6 +5,7 @@ const es = {
     product: "Producto",
     how: "Cómo funciona",
     cta: "Solicitar acceso",
+    theme: "Cambiar tema",
   },
   hero: {
     badge: "Acceso por invitación",
@@ -135,6 +136,7 @@ const en: typeof es = {
     product: "Product",
     how: "How it works",
     cta: "Request access",
+    theme: "Toggle theme",
   },
   hero: {
     badge: "Access by invitation",

@@ -58,8 +58,17 @@ export default async function RootLayout({
   return (
     <html
       lang={lang}
+      suppressHydrationWarning
       className={`${fraunces.variable} ${archivo.variable} ${plexMono.variable} h-full scroll-smooth antialiased`}
     >
+      <head>
+        {/* Set theme class before paint to avoid a flash of the wrong theme */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})()`,
+          }}
+        />
+      </head>
       <body className="min-h-full bg-paper font-sans text-ink">{children}</body>
     </html>
   );
